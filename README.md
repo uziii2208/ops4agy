@@ -105,19 +105,19 @@ Launch with `node dist/index.js dashboard` for a C2 operator-style terminal inte
 
 ```
 ┌─ ops4agy ─────────────────────────────────────────────────────────────┐
-│  PROFILE: AUDIT │ Workers: 2/4 │ Auto: 13 │ Blocked: 2 │ AH: 0     │
+│  PROFILE: AUDIT │ Workers: 2/4 │ Auto: 13 │ Blocked: 2 │ AH: 0        │
 ├─ Workers ──────┬─ Output [claude-1] ──────────────────────────────────┤
 │                │                                                      │
 │ ● claude-1     │  Analyzing src/auth/middleware.ts...                 │
 │   running      │  Found 3 potential issues:                           │
 │                │  1. Missing input validation on line 42              │
-│ ● ag-2         │  2. Hardcoded secret on line 78                     │
-│   waiting_human│  3. SQL injection risk on line 156                  │
+│ ● ag-2         │  2. Hardcoded secret on line 78                      │
+│   waiting_human│  3. SQL injection risk on line 156                   │
 │                │                                                      │
 ├────────────────┴─ Event Log ──────────────────────────────────────────┤
-│ 12:34:56.789 [claude-1] Auto-approved [tool_approval]: claude-tool   │
-│ 12:35:01.234 [ag-2] MANUAL INTERVENTION REQUIRED                     │
-│ 12:35:01.235 [ag-2] Reason: dangerous pattern: destructive-rm        │
+│ 12:34:56.789 [claude-1] Auto-approved [tool_approval]: claude-tool    │
+│ 12:35:01.234 [ag-2] MANUAL INTERVENTION REQUIRED                      │
+│ 12:35:01.235 [ag-2] Reason: dangerous pattern: destructive-rm         │
 ├───────────────────────────────────────────────────────────────────────┤
 │ ops4agy>                                                              │
 └───────────────────────────────────────────────────────────────────────┘
@@ -327,38 +327,38 @@ Categories: `tool_approval` | `bash_command` | `continuation` | `generic` | `des
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                    MasterOrchestrator                         │
+│                    MasterOrchestrator                        │
 │                                                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                  │
-│  │ Worker 1 │  │ Worker 2 │  │ Worker N │  ← PTY + node-pty│
-│  │ (claude) │  │   (ag)   │  │   (ag)   │                  │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                  │
-│       └──────────────┼─────────────┘                        │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                    │
+│  │ Worker 1 │  │ Worker 2 │  │ Worker N │  ← PTY + node-pty  │
+│  │ (claude) │  │   (ag)   │  │   (ag)   │                    │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘                    │
+│       └──────────────┼─────────────┘                         │
 │                      ▼                                       │
 │            ┌─────────────────┐                               │
 │            │  Event Bus      │  ← RxJS Subject               │
 │            │  (sequenced)    │                               │
 │            └────────┬────────┘                               │
 │                     ▼                                        │
-│  ┌──────────────────────────────────────────┐               │
-│  │         Dashboard (blessed TUI)          │               │
-│  │  Workers │ Output │ Logs │ Status bar    │               │
-│  └──────────────────────────────────────────┘               │
+│  ┌──────────────────────────────────────────┐                │
+│  │         Dashboard (blessed TUI)          │                │
+│  │  Workers │ Output │ Logs │ Status bar    │                │
+│  └──────────────────────────────────────────┘                │
 │                                                              │
-│  ┌────────────┐ ┌────────────────┐ ┌─────────────────┐     │
-│  │  Profiles  │ │ Anti-Halluc.   │ │  Prompt Rules   │     │
-│  │  5 modes   │ │ Guard          │ │  12 safe / 8 dng│     │
-│  └────────────┘ └────────────────┘ └─────────────────┘     │
+│  ┌────────────┐ ┌────────────────┐ ┌─────────────────┐       │
+│  │  Profiles  │ │ Anti-Halluc.   │ │  Prompt Rules   │       │
+│  │  5 modes   │ │ Guard          │ │  12 safe / 8 dng│       │
+│  └────────────┘ └────────────────┘ └─────────────────┘       │
 │                                                              │
-│  ┌────────────┐ ┌────────────────┐ ┌─────────────────┐     │
-│  │ Workspace  │ │ Session Store  │ │  Config (Zod)   │     │
-│  │ Watcher    │ │ (JSON index)   │ │  ops4agy.config │     │
-│  └────────────┘ └────────────────┘ └─────────────────┘     │
+│  ┌────────────┐ ┌────────────────┐ ┌─────────────────┐       │
+│  │ Workspace  │ │ Session Store  │ │  Config (Zod)   │       │
+│  │ Watcher    │ │ (JSON index)   │ │  ops4agy.config │       │
+│  └────────────┘ └────────────────┘ └─────────────────┘       │
 │                                                              │
-│  ┌────────────┐ ┌────────────────┐                          │
-│  │   Logger   │ │   Platform     │                          │
-│  │ file+stdout│ │   detector     │                          │
-│  └────────────┘ └────────────────┘                          │
+│  ┌────────────┐ ┌────────────────┐                           │
+│  │   Logger   │ │   Platform     │                           │
+│  │ file+stdout│ │   detector     │                           │
+│  └────────────┘ └────────────────┘                           │
 └──────────────────────────────────────────────────────────────┘
 ```
 
