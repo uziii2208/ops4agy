@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  Wraps CLI processes via PTY, detects approval prompts in real-time, and auto-injects keystrokes —<br>
+  Wraps CLI processes via PTY, detects approval prompts in real-time, and auto-injects keystrokes -<br>
   eliminating the human-in-the-loop bottleneck while keeping dangerous operations gated.
 </p>
 
@@ -143,9 +143,9 @@ Switch at runtime via `profile <name>` (REPL) or `Ctrl+P` (dashboard).
 |:--------|:----:|:-----:|:-----------:|:---------|
 | `safe` | Block | Auto | Block | Read-only analysis, code review |
 | `audit` | Auto | Auto | Block | Security audits with mcp2agy |
-| `ctf` | Auto | Auto | Auto | CTF / HackTheBox — full YOLO |
+| `ctf` | Auto | Auto | Auto | CTF / HackTheBox - full YOLO |
 | `recon` | Auto | Auto | Block | Network reconnaissance |
-| `paranoid` | Block | Block | Block | Zero trust — everything manual |
+| `paranoid` | Block | Block | Block | Zero trust - everything manual |
 
 ---
 
@@ -287,7 +287,7 @@ Categories: `tool_approval` | `bash_command` | `continuation` | `generic` | `des
 ## Prompt Detection
 
 <details>
-<summary><strong>Safe rules (auto-approved)</strong> — 12 rules</summary>
+<summary><strong>Safe rules (auto-approved)</strong> - 12 rules</summary>
 
 | Category | Rule | Example |
 |:---------|:-----|:--------|
@@ -306,7 +306,7 @@ Categories: `tool_approval` | `bash_command` | `continuation` | `generic` | `des
 </details>
 
 <details>
-<summary><strong>Dangerous rules (blocked)</strong> — 8 rules</summary>
+<summary><strong>Dangerous rules (blocked)</strong> - 8 rules</summary>
 
 | Category | Rule | Pattern |
 |:---------|:-----|:--------|
@@ -429,7 +429,7 @@ Check that the CLI tool is on PATH: `ag --version` or `claude --version`
 <summary>Auto-approve not triggering</summary>
 
 - Increase `bufferWindowMs` if prompts arrive in multiple chunks
-- Check your profile — `paranoid` blocks everything, `safe` blocks bash
+- Check your profile - `paranoid` blocks everything, `safe` blocks bash
 - Add a custom rule for your specific prompt format
 </details>
 
@@ -450,5 +450,5 @@ Install Visual Studio Build Tools with "Desktop development with C++" workload, 
 ---
 
 <p align="center">
-  <sub>Built by <a href="https://github.com/uziii2208">uziii2208</a> — works with <a href="https://github.com/uziii2208/mcp2agy">mcp2agy</a></sub>
+  <sub>Built by <a href="https://github.com/uziii2208">uziii2208</a> - works with <a href="https://github.com/uziii2208/mcp2agy">mcp2agy</a></sub>
 </p>

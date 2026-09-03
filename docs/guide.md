@@ -184,11 +184,11 @@ node dist/index.js dashboard --profile ctf --max-workers 8
 
 The dashboard provides a C2 operator-style terminal UI:
 
-- **Left panel (25%)** — worker list with status indicators
-- **Right panel (75%)** — live output from selected worker
-- **Bottom panel (35%)** — event log stream
-- **Status bar** — profile, worker count, stats at a glance
-- **Input bar** — type commands directly
+- **Left panel (25%)** - worker list with status indicators
+- **Right panel (75%)** - live output from selected worker
+- **Bottom panel (35%)** - event log stream
+- **Status bar** - profile, worker count, stats at a glance
+- **Input bar** - type commands directly
 
 Keyboard shortcuts:
 
@@ -268,7 +268,7 @@ The guard validates every prompt match before auto-approving. It catches three c
 If the same prompt hash appears >2 times within the `duplicateWindow` (default 3s), the guard blocks. This catches LLM output loops where the same approval text is generated repeatedly.
 
 ### Frequency Analysis
-If >3 prompts fire within `maxPromptFrequencyMs` (default 500ms), the guard blocks. Real CLI prompts don't arrive at machine-gun speed — abnormal frequency usually means the regex is matching non-prompt output.
+If >3 prompts fire within `maxPromptFrequencyMs` (default 500ms), the guard blocks. Real CLI prompts don't arrive at machine-gun speed - abnormal frequency usually means the regex is matching non-prompt output.
 
 ### Short Match Validation
 Matches shorter than 5 characters are blocked as likely false positives. A real prompt contains more context than just "y" or "ok".
@@ -351,8 +351,8 @@ Your options:
 
 REPL mode:
 ```
-ops4agy> approve claude-1    # Send 'y' — allow the command
-ops4agy> reject claude-1     # Send 'n' — deny the command
+ops4agy> approve claude-1    # Send 'y' - allow the command
+ops4agy> reject claude-1     # Send 'n' - deny the command
 ops4agy> send claude-1 skip  # Send custom input
 ```
 
@@ -371,7 +371,7 @@ Dashboard mode:
 - The prompt text may contain ANSI codes that don't match after stripping
 - Increase `bufferWindowMs` in config if prompts are arriving in multiple chunks
 - Add a custom rule in `ops4agy.config.json` for your specific prompt format
-- Check your profile — `paranoid` blocks everything, `safe` blocks bash
+- Check your profile - `paranoid` blocks everything, `safe` blocks bash
 
 ### Anti-hallucination blocking legitimate prompts
 - If prompts arrive quickly (e.g., batch tool calls), increase `maxPromptFrequencyMs`
