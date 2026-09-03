@@ -237,7 +237,7 @@ export class MasterOrchestrator {
     await this.watcher.stop();
     this.subscriptions.forEach((s) => s.unsubscribe());
     this.events$.complete();
-    await this.logger.close();
     this.logger.info('master', chalk.yellow('Shutdown complete'));
+    await this.logger.close();
   }
 }

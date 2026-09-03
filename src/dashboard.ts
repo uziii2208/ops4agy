@@ -317,7 +317,7 @@ export class Dashboard {
     const stats = this.master.getSessionStats();
     const workers = this.master.listWorkers();
     const waiting = workers.filter((w) => w.status === 'waiting_human').length;
-    const profile = PROFILES[this.options.profile];
+    const profile = PROFILES[this.master.getProfile()];
 
     let statusText =
       ` {bold}Workers:{/bold} ${workers.length}/${this.options.maxWorkers}` +
@@ -354,7 +354,7 @@ export class Dashboard {
       mouse: true,
       items: [
         ' claude  — Claude Code CLI',
-        ' ag      — Antigravity CLI',
+        ' ag/agy  — Antigravity CLI',
       ],
       tags: true,
     });
@@ -411,8 +411,8 @@ export class Dashboard {
 
     menu.on('select', (_: any, idx: number) => {
       const newProfile = profiles[idx];
+      this.master.setProfile(newProfile.name);
       this.options.profile = newProfile.name;
-      this.options.autoApprove = !newProfile.name.startsWith('paranoid');
       this.logEvent('profile', `Switched to {yellow-fg}${newProfile.label}{/yellow-fg}: ${newProfile.description}`);
       this.headerBox.setContent(
         `{center}{bold}{magenta-fg}ops4agy{/magenta-fg} v1.0.0 — Operator Dashboard{/bold}  ` +
@@ -561,9 +561,11 @@ export class Dashboard {
 
     switch (cmd) {
       case 'spawn': {
-        const target = (parts[1] || 'claude') as CliTarget;
-        if (target !== 'ag' && target !== 'claude') {
-          this.logEvent('error', 'Target must be "ag" or "claude"');
+        const raw = (parts[1] || 'claude').toLowerCase();
+        const targetMap: Record<string, CliTarget> = { ag: 'ag', agy: 'ag', antigravity: 'ag', claude: 'claude' };
+        const target = targetMap[raw];
+        if (!target) {
+          this.logEvent('error', 'Target must be "ag" (or "agy") or "claude"');
           return;
         }
         try {
@@ -618,6 +620,7 @@ export class Dashboard {
           this.logEvent('error', `Unknown profile: ${name}. Options: safe, audit, ctf, recon, paranoid`);
           return;
         }
+        this.master.setProfile(name);
         this.options.profile = name;
         const p = PROFILES[name];
         this.headerBox.setContent(

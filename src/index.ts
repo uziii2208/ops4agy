@@ -16,6 +16,17 @@ const BANNER = `
   ╚═══════════════════════════════════════════╝
 `;
 
+const TARGET_ALIASES: Record<string, CliTarget> = {
+  ag: 'ag',
+  agy: 'ag',
+  antigravity: 'ag',
+  claude: 'claude',
+};
+
+function resolveTarget(input: string): CliTarget | null {
+  return TARGET_ALIASES[input.toLowerCase()] ?? null;
+}
+
 function resolveProfile(profileStr?: string, configProfile?: ProfileName): ProfileName {
   if (profileStr) {
     const parsed = ProfileNameSchema.safeParse(profileStr);
@@ -87,9 +98,9 @@ program
       try {
         switch (cmd) {
           case 'spawn': {
-            const target = (parts[1] || 'claude') as CliTarget;
-            if (target !== 'ag' && target !== 'claude') {
-              console.log(chalk.red('Target must be "ag" or "claude"'));
+            const target = resolveTarget(parts[1] || 'claude');
+            if (!target) {
+              console.log(chalk.red('Target must be "ag" (or "agy") or "claude"'));
               break;
             }
             const args = parts.slice(2);
@@ -217,12 +228,13 @@ program
             await master.shutdown();
             rl.close();
             process.exit(0);
+            break;
           }
 
           case 'help': {
             console.log(`
 ${chalk.bold('Commands:')}
-  ${chalk.cyan('spawn')} <ag|claude> [...args]  Spawn a new CLI worker
+  ${chalk.cyan('spawn')} <ag|agy|claude> [...args]  Spawn a new CLI worker
   ${chalk.cyan('list')}                         List active workers with stats
   ${chalk.cyan('kill')} <worker-id>             Terminate a worker
   ${chalk.cyan('send')} <worker-id> <text>      Send raw input to a worker
@@ -310,8 +322,9 @@ program
   .option('--no-auto-approve', 'Disable automatic prompt approval')
   .option('--no-log', 'Disable session file logging')
   .action(async (target: string, args: string[], opts) => {
-    if (target !== 'ag' && target !== 'claude') {
-      console.error(chalk.red('Target must be "ag" or "claude"'));
+    const resolvedTarget = resolveTarget(target);
+    if (!resolvedTarget) {
+      console.error(chalk.red('Target must be "ag" (or "agy") or "claude"'));
       process.exit(1);
     }
 
@@ -342,7 +355,7 @@ program
       process.exit(0);
     });
 
-    const worker = await master.spawnWorker(target as CliTarget, args);
+    const worker = await master.spawnWorker(resolvedTarget, args);
 
     worker.status$.subscribe((status) => {
       if (status === 'terminated') {
