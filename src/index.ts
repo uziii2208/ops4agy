@@ -17,9 +17,9 @@ const BANNER = `
 `;
 
 const TARGET_ALIASES: Record<string, CliTarget> = {
-  ag: 'ag',
-  agy: 'ag',
-  antigravity: 'ag',
+  agy: 'agy',
+  ag: 'agy',
+  antigravity: 'agy',
   claude: 'claude',
 };
 
@@ -100,7 +100,7 @@ program
           case 'spawn': {
             const target = resolveTarget(parts[1] || 'claude');
             if (!target) {
-              console.log(chalk.red('Target must be "ag" (or "agy") or "claude"'));
+              console.log(chalk.red('Target must be "agy" or "claude"'));
               break;
             }
             const args = parts.slice(2);
@@ -234,7 +234,7 @@ program
           case 'help': {
             console.log(`
 ${chalk.bold('Commands:')}
-  ${chalk.cyan('spawn')} <ag|agy|claude> [...args]  Spawn a new CLI worker
+  ${chalk.cyan('spawn')} <agy|claude> [...args]   Spawn a new CLI worker
   ${chalk.cyan('list')}                         List active workers with stats
   ${chalk.cyan('kill')} <worker-id>             Terminate a worker
   ${chalk.cyan('send')} <worker-id> <text>      Send raw input to a worker
@@ -316,7 +316,7 @@ program
 
 program
   .command('run <target>')
-  .description('Run a single CLI worker (ag or claude) with auto-approve, exit when done')
+  .description('Run a single CLI worker (agy or claude) with auto-approve, exit when done')
   .argument('[args...]', 'Arguments to pass to the CLI')
   .option('-w, --workspace <path>', 'mcp2agy workspace path')
   .option('-c, --config <path>', 'Path to config file')
@@ -326,7 +326,7 @@ program
   .action(async (target: string, args: string[], opts) => {
     const resolvedTarget = resolveTarget(target);
     if (!resolvedTarget) {
-      console.error(chalk.red('Target must be "ag" (or "agy") or "claude"'));
+      console.error(chalk.red('Target must be "agy" or "claude"'));
       process.exit(1);
     }
 

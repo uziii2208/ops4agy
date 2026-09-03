@@ -66,7 +66,7 @@ export class MasterOrchestrator {
 
     this.workerCounter++;
     const id = `${target}-${this.workerCounter}`;
-    const command = target === 'ag' ? 'ag' : 'claude';
+    const command = target === 'agy' ? 'agy' : 'claude';
 
     const workerOpts: WorkerOptions = {
       id,

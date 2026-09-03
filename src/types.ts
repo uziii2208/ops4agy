@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const CliTargetSchema = z.enum(['ag', 'claude']);
+export const CliTargetSchema = z.enum(['agy', 'claude']);
 export type CliTarget = z.infer<typeof CliTargetSchema>;
 
 export const ProfileNameSchema = z.enum(['safe', 'audit', 'ctf', 'recon', 'paranoid']);

@@ -342,7 +342,7 @@ export class Dashboard {
       top: 'center',
       left: 'center',
       width: 40,
-      height: 8,
+      height: 7,
       border: { type: 'line' },
       style: {
         border: { fg: 'magenta' },
@@ -354,13 +354,13 @@ export class Dashboard {
       mouse: true,
       items: [
         ' claude  — Claude Code CLI',
-        ' ag/agy  — Antigravity CLI',
+        ' agy     — Antigravity CLI',
       ],
       tags: true,
     });
 
     form.on('select', async (_: any, idx: number) => {
-      const target: CliTarget = idx === 0 ? 'claude' : 'ag';
+      const target: CliTarget = idx === 0 ? 'claude' : 'agy';
       form.destroy();
       this.screen.render();
       try {
@@ -509,7 +509,7 @@ export class Dashboard {
       '  Ctrl+C    Shutdown & exit',
       '',
       '{bold}Commands (type in input bar):{/bold}',
-      '  spawn <ag|claude> [...args]',
+      '  spawn <agy|claude> [...args]',
       '  kill <worker-id>',
       '  send <worker-id> <text>',
       '  approve <worker-id>',
@@ -562,10 +562,10 @@ export class Dashboard {
     switch (cmd) {
       case 'spawn': {
         const raw = (parts[1] || 'claude').toLowerCase();
-        const targetMap: Record<string, CliTarget> = { ag: 'ag', agy: 'ag', antigravity: 'ag', claude: 'claude' };
+        const targetMap: Record<string, CliTarget> = { agy: 'agy', ag: 'agy', antigravity: 'agy', claude: 'claude' };
         const target = targetMap[raw];
         if (!target) {
-          this.logEvent('error', 'Target must be "ag" (or "agy") or "claude"');
+          this.logEvent('error', 'Target must be "agy" or "claude"');
           return;
         }
         try {
