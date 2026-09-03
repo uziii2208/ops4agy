@@ -1,0 +1,50 @@
+{
+  "name": "ops4agy",
+  "version": "1.0.0",
+  "description": "Autonomous Master-Worker daemon for AGY/Claude Code CLI orchestration via PTY wrapping",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "ops4agy": "./bin/ops4agy.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "agy",
+    "claude",
+    "cli",
+    "orchestrator",
+    "pty",
+    "automation",
+    "mcp"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@types/blessed": "^0.1.27",
+    "blessed": "^0.1.81",
+    "chalk": "^6.0.0",
+    "chokidar": "^5.0.0",
+    "commander": "^15.0.0",
+    "node-pty": "^1.1.0",
+    "rxjs": "^7.8.2",
+    "strip-ansi": "^7.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "typescript": "^7.0.2"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ]
+}
