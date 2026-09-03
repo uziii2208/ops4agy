@@ -11,11 +11,11 @@ export function detectPlatform(): PlatformInfo {
   else if (p === 'darwin') osName = 'darwin';
 
   const shell = isWindows
-    ? (process.env.ComSpec || 'powershell.exe')
+    ? 'powershell.exe'
     : (process.env.SHELL || '/bin/bash');
 
   const shellArgs = isWindows
-    ? (cmd: string, args: string[]) => ['-NoProfile', '-Command', [cmd, ...args].join(' ')]
+    ? (cmd: string, args: string[]) => ['-NoProfile', '-NoLogo', '-Command', [cmd, ...args].join(' ')]
     : (cmd: string, args: string[]) => ['-c', [cmd, ...args].join(' ')];
 
   return {

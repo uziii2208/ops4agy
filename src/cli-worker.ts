@@ -60,7 +60,9 @@ export class CliWorker {
     });
 
     this.ptyProcess.onData((raw: string) => {
-      const clean = stripAnsi(raw);
+      const stripped = stripAnsi(raw);
+      // eslint-disable-next-line no-control-regex
+      const clean = stripped.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
       this.emit('OUTPUT', { output: clean });
       this.appendBuffer(raw);
       if (this.options.logToFile) {

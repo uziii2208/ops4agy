@@ -5,6 +5,7 @@ import chalk from 'chalk';
 export class Logger {
   private logFile: fs.FileHandle | null = null;
   private readonly sessionsDir: string;
+  silent = false;
 
   constructor(sessionsDir: string) {
     this.sessionsDir = path.resolve(sessionsDir);
@@ -26,26 +27,34 @@ export class Logger {
   }
 
   info(source: string, message: string): void {
-    const ts = new Date().toISOString().slice(11, 23);
-    console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${message}`);
+    if (!this.silent) {
+      const ts = new Date().toISOString().slice(11, 23);
+      console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${message}`);
+    }
     this.writeLog(source, message).catch(() => {});
   }
 
   warn(source: string, message: string): void {
-    const ts = new Date().toISOString().slice(11, 23);
-    console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${chalk.yellow(message)}`);
+    if (!this.silent) {
+      const ts = new Date().toISOString().slice(11, 23);
+      console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${chalk.yellow(message)}`);
+    }
     this.writeLog(source, `WARN: ${message}`).catch(() => {});
   }
 
   error(source: string, message: string): void {
-    const ts = new Date().toISOString().slice(11, 23);
-    console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${chalk.red(message)}`);
+    if (!this.silent) {
+      const ts = new Date().toISOString().slice(11, 23);
+      console.log(`${chalk.gray(ts)} ${chalk.bold(`[${source}]`)} ${chalk.red(message)}`);
+    }
     this.writeLog(source, `ERROR: ${message}`).catch(() => {});
   }
 
   alert(source: string, message: string): void {
-    const ts = new Date().toISOString().slice(11, 23);
-    console.log(`${chalk.gray(ts)} ${chalk.bold.red(`[${source}]`)} ${chalk.red.bold(message)}`);
+    if (!this.silent) {
+      const ts = new Date().toISOString().slice(11, 23);
+      console.log(`${chalk.gray(ts)} ${chalk.bold.red(`[${source}]`)} ${chalk.red.bold(message)}`);
+    }
     this.writeLog(source, `ALERT: ${message}`).catch(() => {});
   }
 

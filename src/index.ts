@@ -299,6 +299,7 @@ program
       config: merged,
     });
 
+    master.setSilent(true);
     await master.start();
 
     const { Dashboard } = await import('./dashboard.js');
@@ -307,6 +308,7 @@ program
 
     process.on('SIGINT', async () => {
       dashboard.destroy();
+      master.setSilent(false);
       await master.shutdown();
       process.exit(0);
     });
@@ -357,8 +359,25 @@ program
 
     const worker = await master.spawnWorker(resolvedTarget, args);
 
+    worker.events$.subscribe((event) => {
+      if (event.type === 'OUTPUT') {
+        process.stdout.write(event.data?.output as string ?? '');
+      }
+    });
+
+    if (process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+    }
+    process.stdin.resume();
+    process.stdin.on('data', (data: Buffer) => {
+      worker.write(data.toString());
+    });
+
     worker.status$.subscribe((status) => {
       if (status === 'terminated') {
+        if (process.stdin.isTTY) {
+          process.stdin.setRawMode(false);
+        }
         master.shutdown().then(() => process.exit(0));
       }
     });

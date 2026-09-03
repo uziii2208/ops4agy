@@ -40,6 +40,10 @@ export class MasterOrchestrator {
     return this.options;
   }
 
+  setSilent(silent: boolean): void {
+    this.logger.silent = silent;
+  }
+
   getProfile(): ProfileName {
     return this.currentProfile;
   }
