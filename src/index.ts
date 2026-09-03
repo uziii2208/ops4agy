@@ -27,6 +27,14 @@ function resolveTarget(input: string): CliTarget | null {
   return TARGET_ALIASES[input.toLowerCase()] ?? null;
 }
 
+function normalizeCliArgs(target: CliTarget, args: string[]): string[] {
+  if (args.length === 0) return [];
+  if (args[0].startsWith('-')) return args;
+  const prompt = args.join(' ');
+  if (target === 'agy') return ['-p', prompt];
+  return ['-p', prompt];
+}
+
 function resolveProfile(profileStr?: string, configProfile?: ProfileName): ProfileName {
   if (profileStr) {
     const parsed = ProfileNameSchema.safeParse(profileStr);
@@ -103,7 +111,7 @@ program
               console.log(chalk.red('Target must be "agy" or "claude"'));
               break;
             }
-            const args = parts.slice(2);
+            const args = normalizeCliArgs(target, parts.slice(2));
             const worker = await master.spawnWorker(target, args);
             console.log(chalk.green(`Spawned worker: ${worker.id} [profile: ${master.getProfile()}]`));
             break;
@@ -357,7 +365,8 @@ program
       process.exit(0);
     });
 
-    const worker = await master.spawnWorker(resolvedTarget, args);
+    const cliArgs = normalizeCliArgs(resolvedTarget, args);
+    const worker = await master.spawnWorker(resolvedTarget, cliArgs);
 
     worker.events$.subscribe((event) => {
       if (event.type === 'OUTPUT') {

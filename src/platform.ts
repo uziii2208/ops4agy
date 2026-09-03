@@ -14,9 +14,12 @@ export function detectPlatform(): PlatformInfo {
     ? 'powershell.exe'
     : (process.env.SHELL || '/bin/bash');
 
+  const quoteWin = (a: string) => a.includes(' ') ? `"${a}"` : a;
+  const quoteUnix = (a: string) => a.includes(' ') || a.includes("'") ? `"${a.replace(/"/g, '\\"')}"` : a;
+
   const shellArgs = isWindows
-    ? (cmd: string, args: string[]) => ['-NoProfile', '-NoLogo', '-Command', [cmd, ...args].join(' ')]
-    : (cmd: string, args: string[]) => ['-c', [cmd, ...args].join(' ')];
+    ? (cmd: string, args: string[]) => ['-NoProfile', '-NoLogo', '-Command', [cmd, ...args.map(quoteWin)].join(' ')]
+    : (cmd: string, args: string[]) => ['-c', [cmd, ...args.map(quoteUnix)].join(' ')];
 
   return {
     os: osName,
